@@ -1,0 +1,1706 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>The Ultimate Guide to Argv - Jan Matějka</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/matejka.css" />
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.07b60405deca57041.min.css" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-HBSC0RW1T5"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-HBSC0RW1T5",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-HBSC0RW1T5",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-argv" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Jan Matějka" class="md-header__button md-logo" aria-label="Jan Matějka" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jan Matějka
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The Ultimate Guide to Argv
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Jan Matějka" class="md-nav__button md-logo" aria-label="Jan Matějka" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    Jan Matějka
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about.html" class="md-nav__link">
+        <span class="md-ellipsis">About</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../links.html" class="md-nav__link">
+        <span class="md-ellipsis">Links</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-ellipsis">The Ultimate Guide to Argv</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">The Ultimate Guide to Argv</span>
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-argv" class="md-nav__link">
+    <span title="software/argv:what is argv? (reference label)" class="md-ellipsis">What is argv?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-argv-useful" class="md-nav__link">
+    <span title="software/argv:how is argv useful? (reference label)" class="md-ellipsis">How is argv useful?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-argv-represented" class="md-nav__link">
+    <span title="software/argv:how is argv represented? (reference label)" class="md-ellipsis">How is argv represented?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argv-0" class="md-nav__link">
+    <span title="software/argv:argv[0] (reference label)" class="md-ellipsis">Argv<wbr>[0]</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreting-argv" class="md-nav__link">
+    <span title="software/argv:interpreting argv (reference label)" class="md-ellipsis">Interpreting argv</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreting argv">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span title="software/argv:conventions (reference label)" class="md-ellipsis">Conventions</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#susv4" class="md-nav__link">
+    <span title="software/argv:1. susv4 (reference label)" class="md-ellipsis">1.<wbr> SUSv4</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. SUSv4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options-and-operands" class="md-nav__link">
+    <span title="software/argv:2. options and operands (reference label)" class="md-ellipsis">2.<wbr> Options and Operands</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-arguments" class="md-nav__link">
+    <span title="software/argv:3. option arguments (reference label)" class="md-ellipsis">3.<wbr> Option Arguments</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mandatory-option-arguments" class="md-nav__link">
+    <span title="software/argv:4. mandatory option arguments (reference label)" class="md-ellipsis">4.<wbr> Mandatory Option Arguments</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundled-option-argument" class="md-nav__link">
+    <span title="software/argv:5. bundled option-argument (reference label)" class="md-ellipsis">5.<wbr> Bundled Option-<wbr>Argument</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundled-options" class="md-nav__link">
+    <span title="software/argv:6. bundled options (reference label)" class="md-ellipsis">6.<wbr> Bundled Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-order" class="md-nav__link">
+    <span title="software/argv:7. option order (reference label)" class="md-ellipsis">7.<wbr> Option Order</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-repetition" class="md-nav__link">
+    <span title="software/argv:8. option repetition (reference label)" class="md-ellipsis">8.<wbr> Option Repetition</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mutually-exclusive-options" class="md-nav__link">
+    <span title="software/argv:9. mutually exclusive options (reference label)" class="md-ellipsis">9.<wbr> Mutually Exclusive Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options-terminator-operand" class="md-nav__link">
+    <span title="software/argv:10. options terminator operand (reference label)" class="md-ellipsis">10.<wbr> Options Terminator Operand</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-input-output-operand" class="md-nav__link">
+    <span title="software/argv:11. standard input/output operand (reference label)" class="md-ellipsis">11.<wbr> Standard Input/Output Operand</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-coding-standards" class="md-nav__link">
+    <span title="software/argv:2. gnu coding standards (reference label)" class="md-ellipsis">2.<wbr> GNU Coding Standards</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. GNU Coding Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-options" class="md-nav__link">
+    <span title="software/argv:1. long options (reference label)" class="md-ellipsis">1.<wbr> Long Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-option-order" class="md-nav__link">
+    <span title="software/argv:2. gnu option order (reference label)" class="md-ellipsis">2.<wbr> GNU Option Order</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-option-names" class="md-nav__link">
+    <span title="software/argv:3. recommended option names (reference label)" class="md-ellipsis">3.<wbr> Recommended Option Names</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-options" class="md-nav__link">
+    <span title="software/argv:4. recommended options (reference label)" class="md-ellipsis">4.<wbr> Recommended Options</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-facto-standards" class="md-nav__link">
+    <span title="software/argv:de facto standards (reference label)" class="md-ellipsis">De Facto Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang-standards" class="md-nav__link">
+    <span title="software/argv:golang standards (reference label)" class="md-ellipsis">Golang Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historical-standards" class="md-nav__link">
+    <span title="software/argv:historical standards (reference label)" class="md-ellipsis">Historical Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thanks-i-hate-this" class="md-nav__link">
+    <span title="software/argv:thanks, i hate this (reference label)" class="md-ellipsis">Thanks, I Hate This</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backlog" class="md-nav__link">
+    <span title="software/argv:backlog (reference label)" class="md-ellipsis">Backlog</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span title="software/argv:references (reference label)" class="md-ellipsis">References</span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lang/gnumake.html" class="md-nav__link">
+        <span class="md-ellipsis">GNU Make Coding Guide</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lang/zsh.html" class="md-nav__link">
+        <span class="md-ellipsis">Zsh Scripting Guide</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lang/bash.html" class="md-nav__link">
+        <span class="md-ellipsis">Shell Scripting Survival Guide</span>
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-argv" class="md-nav__link">
+    <span title="software/argv:what is argv? (reference label)" class="md-ellipsis">What is argv?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-argv-useful" class="md-nav__link">
+    <span title="software/argv:how is argv useful? (reference label)" class="md-ellipsis">How is argv useful?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-argv-represented" class="md-nav__link">
+    <span title="software/argv:how is argv represented? (reference label)" class="md-ellipsis">How is argv represented?</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argv-0" class="md-nav__link">
+    <span title="software/argv:argv[0] (reference label)" class="md-ellipsis">Argv<wbr>[0]</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreting-argv" class="md-nav__link">
+    <span title="software/argv:interpreting argv (reference label)" class="md-ellipsis">Interpreting argv</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreting argv">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span title="software/argv:conventions (reference label)" class="md-ellipsis">Conventions</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#susv4" class="md-nav__link">
+    <span title="software/argv:1. susv4 (reference label)" class="md-ellipsis">1.<wbr> SUSv4</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. SUSv4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options-and-operands" class="md-nav__link">
+    <span title="software/argv:2. options and operands (reference label)" class="md-ellipsis">2.<wbr> Options and Operands</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-arguments" class="md-nav__link">
+    <span title="software/argv:3. option arguments (reference label)" class="md-ellipsis">3.<wbr> Option Arguments</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mandatory-option-arguments" class="md-nav__link">
+    <span title="software/argv:4. mandatory option arguments (reference label)" class="md-ellipsis">4.<wbr> Mandatory Option Arguments</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundled-option-argument" class="md-nav__link">
+    <span title="software/argv:5. bundled option-argument (reference label)" class="md-ellipsis">5.<wbr> Bundled Option-<wbr>Argument</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundled-options" class="md-nav__link">
+    <span title="software/argv:6. bundled options (reference label)" class="md-ellipsis">6.<wbr> Bundled Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-order" class="md-nav__link">
+    <span title="software/argv:7. option order (reference label)" class="md-ellipsis">7.<wbr> Option Order</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-repetition" class="md-nav__link">
+    <span title="software/argv:8. option repetition (reference label)" class="md-ellipsis">8.<wbr> Option Repetition</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mutually-exclusive-options" class="md-nav__link">
+    <span title="software/argv:9. mutually exclusive options (reference label)" class="md-ellipsis">9.<wbr> Mutually Exclusive Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options-terminator-operand" class="md-nav__link">
+    <span title="software/argv:10. options terminator operand (reference label)" class="md-ellipsis">10.<wbr> Options Terminator Operand</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-input-output-operand" class="md-nav__link">
+    <span title="software/argv:11. standard input/output operand (reference label)" class="md-ellipsis">11.<wbr> Standard Input/Output Operand</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-coding-standards" class="md-nav__link">
+    <span title="software/argv:2. gnu coding standards (reference label)" class="md-ellipsis">2.<wbr> GNU Coding Standards</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. GNU Coding Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-options" class="md-nav__link">
+    <span title="software/argv:1. long options (reference label)" class="md-ellipsis">1.<wbr> Long Options</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gnu-option-order" class="md-nav__link">
+    <span title="software/argv:2. gnu option order (reference label)" class="md-ellipsis">2.<wbr> GNU Option Order</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-option-names" class="md-nav__link">
+    <span title="software/argv:3. recommended option names (reference label)" class="md-ellipsis">3.<wbr> Recommended Option Names</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-options" class="md-nav__link">
+    <span title="software/argv:4. recommended options (reference label)" class="md-ellipsis">4.<wbr> Recommended Options</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-facto-standards" class="md-nav__link">
+    <span title="software/argv:de facto standards (reference label)" class="md-ellipsis">De Facto Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang-standards" class="md-nav__link">
+    <span title="software/argv:golang standards (reference label)" class="md-ellipsis">Golang Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historical-standards" class="md-nav__link">
+    <span title="software/argv:historical standards (reference label)" class="md-ellipsis">Historical Standards</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thanks-i-hate-this" class="md-nav__link">
+    <span title="software/argv:thanks, i hate this (reference label)" class="md-ellipsis">Thanks, I Hate This</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backlog" class="md-nav__link">
+    <span title="software/argv:backlog (reference label)" class="md-ellipsis">Backlog</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span title="software/argv:references (reference label)" class="md-ellipsis">References</span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="the-ultimate-guide-to-argv">The Ultimate Guide to Argv<a class="headerlink" href="#the-ultimate-guide-to-argv" title="Permalink to this heading">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#what-is-argv" id="id106">What is argv?</a></p></li>
+<li><p><a class="reference internal" href="#how-is-argv-useful" id="id107">How is argv useful?</a></p></li>
+<li><p><a class="reference internal" href="#how-is-argv-represented" id="id108">How is argv represented?</a></p></li>
+<li><p><a class="reference internal" href="#argv-0" id="id109">Argv[0]</a></p></li>
+<li><p><a class="reference internal" href="#interpreting-argv" id="id110">Interpreting argv</a></p>
+<ul>
+<li><p><a class="reference internal" href="#conventions" id="id111">Conventions</a></p></li>
+<li><p><a class="reference internal" href="#susv4" id="id112">1. SUSv4</a></p>
+<ul>
+<li><p><a class="reference internal" href="#options-and-operands" id="id113">2. Options and Operands</a></p></li>
+<li><p><a class="reference internal" href="#option-arguments" id="id114">3. Option Arguments</a></p></li>
+<li><p><a class="reference internal" href="#mandatory-option-arguments" id="id115">4. Mandatory Option Arguments</a></p></li>
+<li><p><a class="reference internal" href="#bundled-option-argument" id="id116">5. Bundled Option-Argument</a></p></li>
+<li><p><a class="reference internal" href="#bundled-options" id="id117">6. Bundled Options</a></p></li>
+<li><p><a class="reference internal" href="#option-order" id="id118">7. Option Order</a></p></li>
+<li><p><a class="reference internal" href="#option-repetition" id="id119">8. Option Repetition</a></p></li>
+<li><p><a class="reference internal" href="#mutually-exclusive-options" id="id120">9. Mutually Exclusive Options</a></p></li>
+<li><p><a class="reference internal" href="#options-terminator-operand" id="id121">10. Options Terminator Operand</a></p></li>
+<li><p><a class="reference internal" href="#standard-input-output-operand" id="id122">11. Standard Input/Output Operand</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gnu-coding-standards" id="id123">2. GNU Coding Standards</a></p>
+<ul>
+<li><p><a class="reference internal" href="#long-options" id="id124">1. Long Options</a></p></li>
+<li><p><a class="reference internal" href="#gnu-option-order" id="id125">2. GNU Option Order</a></p></li>
+<li><p><a class="reference internal" href="#recommended-option-names" id="id126">3. Recommended Option Names</a></p></li>
+<li><p><a class="reference internal" href="#recommended-options" id="id127">4. Recommended Options</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#de-facto-standards" id="id128">De Facto Standards</a></p></li>
+<li><p><a class="reference internal" href="#golang-standards" id="id129">Golang Standards</a></p></li>
+<li><p><a class="reference internal" href="#historical-standards" id="id130">Historical Standards</a></p></li>
+<li><p><a class="reference internal" href="#thanks-i-hate-this" id="id131">Thanks, I Hate This</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#backlog" id="id132">Backlog</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id133">References</a></p></li>
+</ul>
+</div>
+<h2 id="what-is-argv"><a class="toc-backref" href="#id106">What is argv?</a><a class="headerlink" href="#what-is-argv" title="Permalink to this heading">¶</a></h2>
+<p>Argv is short for arguments vector. Vector is a fancy way of saying <a class="reference external" href="https://en.wikipedia.org/wiki/Tuple">n-tuple</a>.</p>
+<p>When executing a program, e.g. from the terminal you may pass in the argv:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ echo foo bar
+</code></pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">echo</span></code> is the program to execute.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(echo,</span> <span class="pre">foo,</span> <span class="pre">bar)</span></code> is the argv given to the program.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(foo,</span> <span class="pre">bar)</span></code> are referred to as arguments</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">argv</span></code> can also be referred to as command line or cmdline.</p>
+<h2 id="how-is-argv-useful"><a class="toc-backref" href="#id107">How is argv useful?</a><a class="headerlink" href="#how-is-argv-useful" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">argv</span></code> is one of several mechanisms to provide input to the program to either provide data it
+should work on or configuration of the program modifying its standard behavior.</p>
+<p><code class="docutils literal notranslate"><span class="pre">argv</span></code> can also be used for process identification in tools like <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/htop">htop</a></em>, <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/ps">ps</a></em>,
+<em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/pgrep">pgrep</a></em>, or <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/pkill">pkill</a></em>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">argv</span></code> is also available in the special <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/proc(5)">proc(5)</a></em> file system as <code class="docutils literal notranslate"><span class="pre">/proc/[pid]/cmdline</span></code>.</p>
+<h2 id="how-is-argv-represented"><a class="toc-backref" href="#id108">How is argv represented?</a><a class="headerlink" href="#how-is-argv-represented" title="Permalink to this heading">¶</a></h2>
+<p>This depends on your runtime system.</p>
+<p>In python, argv is a <a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#list">list</a> available via
+<code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>. It is similar in other high level languages.</p>
+<p>In C, argv is given to the program in its <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">main(int</span> <span class="pre">argc,</span> <span class="pre">char</span> <span class="pre">**</span> <span class="pre">agrv)</span></code> function. An integer
+parameter signifying the length of the tuple and an array of pointers to the individual strings of
+the tuple <a class="footnote-reference brackets" href="#id73" id="id1">1</a> <a class="footnote-reference brackets" href="#id74" id="id2">2</a>.</p>
+<p>At the assembler level. The argv is present on top of the stack <a class="footnote-reference brackets" href="#id75" id="id3">3</a> when the program is started by
+the kernel. It is there again as integer parameter signifying the length of the tuple, followed by
+the pointers to the individual character arrays of the tuple <a class="footnote-reference brackets" href="#id76" id="id4">4</a>.</p>
+<h2 id="argv-0"><a class="toc-backref" href="#id109">Argv[0]</a><a class="headerlink" href="#argv-0" title="Permalink to this heading">¶</a></h2>
+<p>The first element in the argv tuple contains the name of the program <a class="footnote-reference brackets" href="#id73" id="id5">1</a>. The <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> is defined
+by the parent process (<em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/execve(2)">execve(2)</a></em>) and by convention it is the <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/basename(1)">basename(1)</a></em> of
+the executed file. If the file is referred to through a file system link, the <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> is
+determined by the link name.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> can usually be ignored but you need to be aware of it. For example, if you want to
+dispatch the argv to another program you usually want to pass only the <code class="docutils literal notranslate"><span class="pre">1..n</span></code> elements (instead of
+<code class="docutils literal notranslate"><span class="pre">0..n</span></code>, omitting the 0th argument).</p>
+<p>Sometimes it can also be useful. For example, BusyBox <a class="footnote-reference brackets" href="#id77" id="id6">5</a> implements functionality of several
+different programs and determines the program name from the <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> <a class="footnote-reference brackets" href="#id78" id="id7">6</a>.  Thanks to this trick,
+it can be used as a drop-in replacement for these programs while also existing on the system as a
+single executable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> can also be rewritten by the program itself typically to present itself in more useful
+manner but also <a class="reference external" href="https://www.intezer.com/blog/research/new-linux-threat-symbiote/">to hide itself by appearing as something else</a> <a class="reference internal" href="#c17-5-1-2-2-1" id="id8"><span>[C17-5.1.2.2.1]</span></a>.</p>
+<h2 id="interpreting-argv"><a class="toc-backref" href="#id110">Interpreting argv</a><a class="headerlink" href="#interpreting-argv" title="Permalink to this heading">¶</a></h2>
+<p>The semantics of the argv contents are defined by the program. However, there are some patterns and
+standards.</p>
+<div class="contents local topic" id="id9">
+<ul class="simple">
+<li><p><a class="reference internal" href="#conventions" id="id134">Conventions</a></p></li>
+<li><p><a class="reference internal" href="#susv4" id="id135">1. SUSv4</a></p>
+<ul>
+<li><p><a class="reference internal" href="#options-and-operands" id="id136">2. Options and Operands</a></p></li>
+<li><p><a class="reference internal" href="#option-arguments" id="id137">3. Option Arguments</a></p></li>
+<li><p><a class="reference internal" href="#mandatory-option-arguments" id="id138">4. Mandatory Option Arguments</a></p></li>
+<li><p><a class="reference internal" href="#bundled-option-argument" id="id139">5. Bundled Option-Argument</a></p></li>
+<li><p><a class="reference internal" href="#bundled-options" id="id140">6. Bundled Options</a></p></li>
+<li><p><a class="reference internal" href="#option-order" id="id141">7. Option Order</a></p></li>
+<li><p><a class="reference internal" href="#option-repetition" id="id142">8. Option Repetition</a></p></li>
+<li><p><a class="reference internal" href="#mutually-exclusive-options" id="id143">9. Mutually Exclusive Options</a></p></li>
+<li><p><a class="reference internal" href="#options-terminator-operand" id="id144">10. Options Terminator Operand</a></p></li>
+<li><p><a class="reference internal" href="#standard-input-output-operand" id="id145">11. Standard Input/Output Operand</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gnu-coding-standards" id="id146">2. GNU Coding Standards</a></p>
+<ul>
+<li><p><a class="reference internal" href="#long-options" id="id147">1. Long Options</a></p></li>
+<li><p><a class="reference internal" href="#gnu-option-order" id="id148">2. GNU Option Order</a></p></li>
+<li><p><a class="reference internal" href="#recommended-option-names" id="id149">3. Recommended Option Names</a></p></li>
+<li><p><a class="reference internal" href="#recommended-options" id="id150">4. Recommended Options</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#de-facto-standards" id="id151">De Facto Standards</a></p></li>
+<li><p><a class="reference internal" href="#golang-standards" id="id152">Golang Standards</a></p></li>
+<li><p><a class="reference internal" href="#historical-standards" id="id153">Historical Standards</a></p></li>
+<li><p><a class="reference internal" href="#thanks-i-hate-this" id="id154">Thanks, I Hate This</a></p></li>
+</ul>
+</div>
+<h3 id="conventions"><a class="toc-backref" href="#id134">Conventions</a><a class="headerlink" href="#conventions" title="Permalink to this heading">¶</a></h3>
+<p>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+“RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as
+described in <a class="reference external" href="https://www.rfc-editor.org/info/bcp14">BCP 14</a> [<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc2119">RFC2119</a>] [<a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all capitals,
+as shown here.</p>
+<h3 id="susv4"><a class="toc-backref" href="#id135">1. SUSv4</a><a class="headerlink" href="#susv4" title="Permalink to this heading">¶</a></h3>
+<p>Most software (on Linux) is mostly conforming to the <a class="reference internal" href="#susv4-2018" id="id10"><span>[SUSv4-2018]</span></a> or <a class="reference internal" href="#gnu-coding-standards-4-8" id="id11"><span>[GNU-Coding-Standards-4.8]</span></a>
+standards. We will start by examining the <a class="reference internal" href="#susv4-2018" id="id12"><span>[SUSv4-2018]</span></a>, specifically the Utility Conventions
+section <a class="reference internal" href="#xbd-utility-conventions" id="id13"><span>[XBD-Utility-Conventions]</span></a>. I took some liberties in the interpretation of the standard to
+enable this section to also serve as best current practice description for <em>new programs</em>.</p>
+<p>You may refer only to the <a class="reference internal" href="#utility-syntax-guidelines" id="id14"><span>[12.2-Utility-Syntax-Guidelines]</span></a> as your only guidelines but it is my
+hope that this document provides best current practices unconstrained by historical consideration of
+<a class="reference internal" href="#susv4-2018" id="id15"><span>[SUSv4-2018]</span></a> and it does so with more clarity while still describing practices that are no longer
+best but still somewhat current.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>The SUSv4 standard refers to programs as “utilities” <a class="footnote-reference brackets" href="#id85" id="id16">12</a>.</p>
+</div>
+<ol class="arabic simple">
+<li><p>The arguments given to a program can be categorized into disjunct sets of <em>options</em>, <em>operands</em>, and
+<em>option-arguments</em>.</p></li>
+</ol>
+<h4 id="options-and-operands"><a class="toc-backref" href="#id136">2. Options and Operands</a><a class="headerlink" href="#options-and-operands" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>All arguments that can not be recognized as <em>options</em> or <em>option-arguments</em>, SHALL be recognized
+as <em>operands</em>.</p></li>
+</ol>
+<div class="caution admonition">
+<p class="admonition-title">Caution</p>
+<p>This definition violates the <a class="reference internal" href="#susv4-2018" id="id17"><span>[SUSv4-2018]</span></a> <a class="reference internal" href="#id100" id="id18"><span>[12.2.9]</span></a> but it is the current best
+practice. It has to be included in this section because it is foundational to the rest of the
+document. This is on purpose to include options that follow operands. Also see
+<a class="reference internal" href="#gnu-option-order">2. GNU Option Order</a>.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Operands are sometimes referred to as positional arguments and usually provide data.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>The arguments that consist of &lt;hyphen-minus&gt; characters and single letters or digits SHALL be
+recognized as <em>options</em> <a class="reference internal" href="#id89" id="id19"><span>[12.1.1]</span></a> <a class="reference internal" href="#id94" id="id20"><span>[12.2.3]</span></a> <a class="reference internal" href="#id95" id="id21"><span>[12.2.4]</span></a> unless they are preceded in the <code class="docutils literal notranslate"><span class="pre">argv</span></code> by
+<a class="reference internal" href="#options-terminator-operand">10. Options Terminator Operand</a>.</p></li>
+</ol>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>These are also referred to as short options or shortopts. Long options will be discussed
+in the <a class="reference internal" href="#gnu-coding-standards">2. GNU Coding Standards</a> and further sections.</p>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Caution</p>
+<p>The definition of <em>options</em> is complemented by <a class="reference internal" href="#bundled-options">6. Bundled Options</a> and <a class="reference internal" href="#long-options">1. Long
+Options</a>.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Options are sometimes also referred to as flags and usually modify the program behavior.</p>
+</div>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p>Command line to execute program <code class="docutils literal notranslate"><span class="pre">echo</span></code> with argv <code class="docutils literal notranslate"><span class="pre">(echo,</span> <span class="pre">-n)</span></code> where <code class="docutils literal notranslate"><span class="pre">-n</span></code> is a short option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ echo -n
+</code></pre></div>
+</div>
+</div>
+<h4 id="option-arguments"><a class="toc-backref" href="#id137">3. Option Arguments</a><a class="headerlink" href="#option-arguments" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Options MAY require option-arguments <a class="reference internal" href="#id89" id="id22"><span>[12.1.1]</span></a>. Option-arguments are passed in as the argv
+element successive to the option name argument.</p></li>
+</ol>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ xargs -I %
+</code></pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-I</span></code> is an option and <code class="docutils literal notranslate"><span class="pre">%</span></code> is its option-argument. <code class="docutils literal notranslate"><span class="pre">argv</span> <span class="pre">=</span> <span class="pre">(xargs,</span> <span class="pre">-I,</span> <span class="pre">%)</span></code>.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Options that require option-argument may also be referred to as <em>argumented-options</em>.</p></li>
+<li><p>Options that do not require an option-argument may also be referred to as
+<em>non-argumented-options</em>.</p></li>
+</ol>
+<h4 id="mandatory-option-arguments"><a class="toc-backref" href="#id138">4. Mandatory Option Arguments</a><a class="headerlink" href="#mandatory-option-arguments" title="Permalink to this heading">¶</a></h4>
+<p>For historical reasons we need to distinguish option-arguments that are optional and that are
+mandatory.</p>
+<ol class="arabic simple">
+<li><p>If an option accepts an option-argument, that option-argument SHALL be mandatory <a class="reference internal" href="#id98" id="id23"><span>[12.2.7]</span></a>, i.e.
+not optional.</p></li>
+</ol>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ xargs -I
+xargs: option requires an argument -- &#39;I&#39;
+Try &#39;xargs --help&#39; for more information.
+[1]
+</code></pre></div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>The <a class="reference internal" href="#susv4-2018" id="id24"><span>[SUSv4-2018]</span></a> recommends against optional option-arguments but ultimately permits
+them.</p>
+</div>
+<div class="question admonition">
+<p class="admonition-title">Motivation not entirely clear. It may include:</p>
+<ul class="simple">
+<li><p>implementation simplicity</p></li>
+<li><p>not providing significant benefit</p></li>
+<li><p>future portability reasons (different implementation choosing different defaults)</p></li>
+</ul>
+</div>
+<h4 id="bundled-option-argument"><a class="toc-backref" href="#id139">5. Bundled Option-Argument</a><a class="headerlink" href="#bundled-option-argument" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p><em>Bundled option-argument</em> refers to option and its option-argument represented as single argv
+element with option-argument immediately following the option.</p></li>
+<li><p>Bundled option arguments SHALL not be recognized as options and not accepted as options
+unless for historical compatibility reasons <a class="reference internal" href="#id97" id="id25"><span>[12.2.6]</span></a> <a class="reference internal" href="#id90" id="id26"><span>[12.1.2]</span></a> <a class="reference internal" href="#a" id="id27"><span>[12.1.2.a]</span></a>.</p></li>
+</ol>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p>The bundled form below would be be equivalent to unbundled form <code class="docutils literal notranslate"><span class="pre">xargs</span> <span class="pre">-I</span> <span class="pre">%</span></code> if permitted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ xargs -I%
+</code></pre></div>
+</div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Caution</p>
+<p>Not to be confused with <a class="reference internal" href="#bundled-options">6. Bundled Options</a> which is recommended.</p>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Option-argument bundling is not permitted because it creates ambiguities with
+<a class="reference internal" href="#bundled-options">6. Bundled Options</a> and complicates parsing implementation for no significant benefit.</p>
+</div>
+<h4 id="bundled-options"><span id="option-bundling"></span><a class="toc-backref" href="#id140">6. Bundled Options</a><a class="headerlink" href="#bundled-options" title="Permalink to this heading">¶</a></h4>
+<p><em>Bundled options</em> are one or more short options without option-arguments, followed by at most one
+option that takes an option-argument, grouped into single argv element behind one <code class="docutils literal notranslate"><span class="pre">-</span></code> delimiter
+<a class="reference internal" href="#id96" id="id28"><span>[12.2.5]</span></a> <a class="reference internal" href="#id104" id="id29"><span>[12.2.14]</span></a>.</p>
+<p>Bundled options SHOULD be recognized as <em>options</em>.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p>Unbundled form of options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ echo -n -e
+</code></pre></div>
+</div>
+<p>is semantically equivalent to bundled form of options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ echo -ne
+</code></pre></div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Improves user experience when using the program manually and often.</p>
+</div>
+<h4 id="option-order"><a class="toc-backref" href="#id141">7. Option Order</a><a class="headerlink" href="#option-order" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Option order SHOULD NOT be semantically significant <a class="reference internal" href="#id102" id="id30"><span>[12.2.11]</span></a> <a class="reference internal" href="#id91" id="id31"><span>[12.1.3]</span></a>.</p></li>
+</ol>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-ri</span></code> and <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-ir</span></code> being equivalent.</p>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Caution</p>
+<p>The standard excepts <a class="reference internal" href="#mutually-exclusive-options">9. Mutually Exclusive Options</a> from this requirement.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Improves user experience when using the program manually and often.</p>
+</div>
+<p>Option order may be semantically significant.</p>
+<p>Some programs domain and/or purpose requires semantical significance in order to function correctly.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p><em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/find(1)">find(1)</a></em> can express propositional logic in argv, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ `find &#39;(&#39; -name &#39;a&#39; -or -name &#39;foo&#39; &#39;)&#39; -and -not -type d`.
+</code></pre></div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p><em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/find(1)">find(1)</a></em> is actually posix conforming because the <code class="docutils literal notranslate"><span class="pre">-name</span></code>, etc arguments are
+actually not options. They are operands.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>If a program chooses to treat option order as semantically significant, it MUST be documented in the
+OPTIONS section <a class="reference internal" href="#id91" id="id32"><span>[12.1.3]</span></a> <a class="reference internal" href="#id102" id="id33"><span>[12.2.11]</span></a>.</p></li>
+</ol>
+<h4 id="option-repetition"><a class="toc-backref" href="#id142">8. Option Repetition</a><a class="headerlink" href="#option-repetition" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Non-argumented-options may be repeated in the argv <a class="reference internal" href="#id91" id="id34"><span>[12.1.3]</span></a>.</p></li>
+</ol>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>The standard does not impose any requirements on program behavior “unless otherwise
+stated in the OPTIONS section” <a class="reference internal" href="#id91" id="id35"><span>[12.1.3]</span></a>. This likely refers to standard utilities described in
+other volumes of the standard.</p>
+</div>
+<ol class="arabic" start="2">
+<li><p>If a non-argumented-option is repeated in the argv and the program documentation does
+not explicitly specify this behavior, the program MUST terminate erroneously or accept the
+options as if they were not repeated.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Repetition of non-argumented-options are sometimes used to e.g. increase verbosity
+levels. Example <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/lspci(8)">lspci(8)</a></em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ lspci -vv
+</code></pre></div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Accepting the options as if not repeated is likely the default behavior of argument
+parsers that do not consider this use case.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Erroneous termination is strictly saner behavior if the argument parsing does consider
+the use case and does not assign any significant semantics to it.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Mandating this behavior only if not otherwise specified by the program’s documentation
+allows for some niche use cases but it is probably advisable to consider other solutions, such
+as option with mandatory option argument before opting into this behavior.</p>
+</div>
+</li>
+<li><p>Argumented-options may be repeated <a class="reference internal" href="#id93" id="id36"><span>[12.1.9]</span></a>.</p>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>These are sometimes also referred to as cumulative options or cumulative arguments.</p>
+</div>
+<ol class="arabic">
+<li><p>Interpretation of repeated argumented-options is determined on program-specific basis.</p></li>
+<li><p>If the repetition is accepted, the options should be interpreted in the order specified
+in the <code class="docutils literal notranslate"><span class="pre">argv</span></code> <a class="reference internal" href="#id102" id="id37"><span>[12.2.11]</span></a>.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ sed -e &#39;script-1&#39; -e &#39;script-2&#39;
+$ rsync -av --exclude foo --exclude bar 1 2
+</code></pre></div>
+</div>
+</div>
+</li>
+</ol>
+<div class="question admonition">
+<p class="admonition-title">Question</p>
+<ul class="simple">
+<li><p>Should repetition where some instance of the option overrides the other be
+permitted?</p></li>
+<li><p>It may be useful in niche cases when composing the argv by allowing the successive
+options to override the preceding ones but it feels wrong.</p></li>
+<li><p>It should probably also be consistent with resolving mutualy exclusive options which have a
+precedent in the <a class="reference internal" href="#id102" id="id38"><span>[12.2.11]</span></a>.</p></li>
+<li><p>Also see <a class="reference internal" href="#mutually-exclusive-options">9. Mutually Exclusive Options</a>.</p></li>
+</ul>
+</div>
+</li>
+</ol>
+<h4 id="mutually-exclusive-options"><a class="toc-backref" href="#id143">9. Mutually Exclusive Options</a><a class="headerlink" href="#mutually-exclusive-options" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Programs may interpret options as mutually exclusive <a class="reference internal" href="#id91" id="id39"><span>[12.1.3]</span></a> <a class="reference internal" href="#id102" id="id40"><span>[12.2.11]</span></a>.</p></li>
+<li><p>Multiple mutually exclusive options may be accepted in single <code class="docutils literal notranslate"><span class="pre">argv</span></code> as long as such options are
+documented as mutually exclusive and are documented to override any incompatible options
+preceding it.</p>
+<div class="caution admonition">
+<p class="admonition-title">Caution</p>
+<p>Single <code class="docutils literal notranslate"><span class="pre">argv</span></code>. Not single <code class="docutils literal notranslate"><span class="pre">argv</span></code> element.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>These options are exempted from the insignificant option order recommendation by the
+standard <a class="reference internal" href="#id102" id="id41"><span>[12.2.11]</span></a>.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>When considering whether the guidelines should permit or not this behavior, it should
+be considered in the context of general option repetition. The standard does not seem to
+provide a guideline (ie. allows arbitrary repetition) on this topic except for this specific
+exception.</p>
+</div>
+</li>
+</ol>
+<h4 id="options-terminator-operand"><a class="toc-backref" href="#id144">10. Options Terminator Operand</a><a class="headerlink" href="#options-terminator-operand" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>The first <code class="docutils literal notranslate"><span class="pre">--</span></code> operand should be accepted as a delimiter indicating end of options <a class="reference internal" href="#id101" id="id42"><span>[12.2.10]</span></a>.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>This exists to distinguish operands that would otherwise be recognized as an option.
+Example <code class="docutils literal notranslate"><span class="pre">argv</span> <span class="pre">=</span> <span class="pre">(/usr/bin/printf,</span> <span class="pre">--,</span> <span class="pre">--version)</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ /usr/bin/printf -- --version
+--version
+</code></pre></div>
+</div>
+<p>vs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ /usr/bin/printf --version
+printf (GNU coreutils) 8.32
+[...]
+</code></pre></div>
+</div>
+</div>
+</li>
+</ol>
+<h4 id="standard-input-output-operand"><a class="toc-backref" href="#id145">11. Standard Input/Output Operand</a><a class="headerlink" href="#standard-input-output-operand" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-</span></code> operand may refer to standard input, standard output, or file named <code class="docutils literal notranslate"><span class="pre">-</span></code> <a class="reference internal" href="#id103" id="id43"><span>[12.2.13]</span></a>.</p>
+<div class="question admonition">
+<p class="admonition-title">Question</p>
+<p>Motivation unclear except for being short. And occasional use case when utilities are
+composed where passing in the stdin/out the same way as file name may be convenient to
+implement.</p>
+</div>
+</li>
+</ol>
+<h3 id="gnu-coding-standards"><a class="toc-backref" href="#id146">2. GNU Coding Standards</a><a class="headerlink" href="#gnu-coding-standards" title="Permalink to this heading">¶</a></h3>
+<p>GNU Coding Standards for Command Line Interfaces <a class="reference internal" href="#gnu-coding-standards-4-8" id="id44"><span>[GNU-Coding-Standards-4.8]</span></a> mostly extend the
+<a class="reference internal" href="#susv4-2018" id="id45"><span>[SUSv4-2018]</span></a> standard but occasionally violate it <a class="footnote-reference brackets" href="#id82" id="id46">9</a>.</p>
+<h4 id="long-options"><a class="toc-backref" href="#id147">1. Long Options</a><a class="headerlink" href="#long-options" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Programs SHOULD also accept options in the form of long options. Also referred to as longopts.
+Longopts are signified by prefix of two &lt;hyphen-minus&gt; characters <code class="docutils literal notranslate"><span class="pre">--</span></code>.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ rsync --version
+</code></pre></div>
+</div>
+</div>
+</li>
+<li><p>Long options generally follow the same guidelines as short options as defined in <a class="reference internal" href="#susv4">1. SUSv4</a>
+except for obvious incompatibilities such as <a class="reference internal" href="#option-bundling">option bundling</a>.</p></li>
+<li><p>Programs should accept long options version of each short option in the hope of more user
+friendliness. E.g. <code class="docutils literal notranslate"><span class="pre">rsync</span> <span class="pre">--verbose</span></code> and <code class="docutils literal notranslate"><span class="pre">rsync</span> <span class="pre">-v</span></code> are equivalent</p></li>
+</ol>
+<h4 id="gnu-option-order"><a class="toc-backref" href="#id148">2. GNU Option Order</a><a class="headerlink" href="#gnu-option-order" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Programs SHOULD violate <a class="reference internal" href="#susv4-2018" id="id47"><span>[SUSv4-2018]</span></a> to accept options regardless of their relative
+position to operands if possible.</p>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Options following operands may be referred to as tail options <a class="footnote-reference brackets" href="#id88" id="id48">14</a>.</p>
+</div>
+</li>
+</ol>
+<h4 id="recommended-option-names"><a class="toc-backref" href="#id149">3. Recommended Option Names</a><a class="headerlink" href="#recommended-option-names" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Operands used as file name arguments should be used for input files only. Output files should be
+specified using options <code class="docutils literal notranslate"><span class="pre">-o</span></code> or <code class="docutils literal notranslate"><span class="pre">--output</span></code>.</p></li>
+<li><p>GNU Coding Standards also contain a table of recommended long option names and their semantics:
+<a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Option-Table.html#Option-Table">https://www.gnu.org/prep/standards/html_node/Option-Table.html#Option-Table</a>.</p>
+<p>The table interestingly specifies <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> and <code class="docutils literal notranslate"><span class="pre">--silent</span></code> as synonyms. There is at least one
+common software that uses these differently. Can’t remember which right now.</p>
+</li>
+<li><p>There is also a list recommended short options in the <a class="reference internal" href="#tao-command-line-options" id="id49"><span>[TaO-Command-Line-Options]</span></a>.</p></li>
+</ol>
+<h4 id="recommended-options"><a class="toc-backref" href="#id150">4. Recommended Options</a><a class="headerlink" href="#recommended-options" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Programs should support two standard options <code class="docutils literal notranslate"><span class="pre">--version</span></code> and <code class="docutils literal notranslate"><span class="pre">--help</span></code>.</p></li>
+</ol>
+<p>CGI programs should accept these as command-line options as well as as <code class="docutils literal notranslate"><span class="pre">PATH_INFO</span></code>; for example
+<a class="reference external" href="http://example.org/p.cgi/">http://example.org/p.cgi/</a>–help` should output the same information as invoking <code class="docutils literal notranslate"><span class="pre">p.cgi</span> <span class="pre">--help</span></code> on
+the command line.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Well this interesting. This probably should be disregarded from the best current
+practice. For one because CGI is practically non-existent nowadays. And for second, looks
+funky. But its only –version and –help. Idk.</p>
+</div>
+<h3 id="de-facto-standards"><a class="toc-backref" href="#id151">De Facto Standards</a><a class="headerlink" href="#de-facto-standards" title="Permalink to this heading">¶</a></h3>
+<p>A de facto standard is a custom or convention that has achieved a dominant
+position by public acceptance or market forces <a class="reference internal" href="#defacto" id="id50"><span>[DeFacto]</span></a>.</p>
+<ol class="arabic">
+<li><p>Long options option-argument bundling is NOT RECOMMENDED.</p>
+<p>However, it is common to see in existing software. Usually with a <code class="docutils literal notranslate"><span class="pre">=</span></code> as separator.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ git --git-dir=foo
+</code></pre></div>
+</div>
+</div>
+<div class="question admonition">
+<p class="admonition-title">Question</p>
+<ul class="simple">
+<li><p>Why is this still a thing?</p></li>
+<li><p>It seems like more work for no benefit compared to no bundling <code class="docutils literal notranslate"><span class="pre">--git-dir</span> <span class="pre">foo</span></code>.</p></li>
+<li><p>At first I thought this is historical, possibly because shell scripts could just
+remove the prefix and eval the rest but no. This is still implemented by modern software.</p></li>
+</ul>
+</div>
+</li>
+<li><p>Options are often only boolean switches (aka flags). Normally, if unspecified, the option is off.
+When specified, the option is on. E.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ grep -q
+</code></pre></div>
+</div>
+</li>
+<li><p>If an option is by default on and when specified is off, it may be realized as long option with
+<code class="docutils literal notranslate"><span class="pre">--no-</span></code> prefix. E.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ wget --no-verbose
+</code></pre></div>
+</div>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">--</span></code> operand is in addition to the meaning in <a class="reference internal" href="#options-terminator-operand">10. Options Terminator Operand</a> also commonly
+used to signify end of operands meant for the program in the <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> position and start of an
+argv for another program to execute. This technique is known as Bernstein chaining <a class="footnote-reference brackets" href="#id79" id="id51">7</a>.</p></li>
+</ol>
+<h3 id="golang-standards"><a class="toc-backref" href="#id152">Golang Standards</a><a class="headerlink" href="#golang-standards" title="Permalink to this heading">¶</a></h3>
+<p>Golang kind of <a class="reference external" href="https://pkg.go.dev/flag">goes its own way</a>. This style actually seems to originate
+from X toolkit <a class="reference internal" href="#tao-command-line-options" id="id52"><span>[TaO-Command-Line-Options]</span></a>.</p>
+<h3 id="historical-standards"><a class="toc-backref" href="#id153">Historical Standards</a><a class="headerlink" href="#historical-standards" title="Permalink to this heading">¶</a></h3>
+<p>All recommendations in this section SHOULD NOT be regarded as best current practice unless
+historical reasons are involved in which case this entire document is irrelevant.</p>
+<p>First we will discuss patterns that are common and allowed by <a class="reference internal" href="#susv4-2018" id="id53"><span>[SUSv4-2018]</span></a>.</p>
+<ol class="arabic">
+<li><p>All options should precede the operands <a class="reference internal" href="#id100" id="id54"><span>[12.2.9]</span></a>.</p>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Disregard. See <a class="reference internal" href="#options-and-operands">2. Options and Operands</a> and <a class="reference internal" href="#gnu-option-order">2. GNU Option Order</a>.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>This guidelines seems to be strictly adhered to in FreeBSD world and it is kind of
+annoying.</p>
+</div>
+</li>
+<li><p>Programs accepting option-arguments may accept multiple option-arguments bundled into a single
+argv. In that case, the option-arguments should be separated by comma <code class="docutils literal notranslate"><span class="pre">,</span></code> or &lt;blank&gt; <a class="footnote-reference brackets" href="#id84" id="id55">11</a>
+characters <a class="reference internal" href="#id99" id="id56"><span>[12.2.8]</span></a>.</p>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Cumulative options should be used for this purpose.</p>
+<p>This bundled approach may be chosen due to compositional synergy with other utilities. But in
+that case it should be considered whether the other tools may be modified to also be
+synergistic with the cumulative approach.</p>
+</div>
+</li>
+<li><p>Optional option-arguments are permitted <a class="reference internal" href="#id90" id="id57"><span>[12.1.2]</span></a> <a class="reference internal" href="#id92" id="id58"><span>[12.1.7]</span></a>.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">xargs</span> <span class="pre">-i</span></code> and <code class="docutils literal notranslate"><span class="pre">xargs</span> <span class="pre">-i{}</span></code> being equivalent as per <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/xargs(1)">xargs(1)</a></em>.</p>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Optional option-arguments are not recommended. See <a class="reference internal" href="#mandatory-option-arguments">4. Mandatory Option Arguments</a>.</p>
+</div>
+</li>
+<li><p>Bundled option-arguments may be accepted <a class="reference internal" href="#id90" id="id59"><span>[12.1.2]</span></a> <a class="reference internal" href="#a" id="id60"><span>[12.1.2.a]</span></a> <a class="reference internal" href="#b" id="id61"><span>[12.1.2.b]</span></a>.</p>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>Mostly only of historical significance. See <a class="reference internal" href="#bundled-option-argument">5. Bundled Option-Argument</a>.</p>
+</div>
+</li>
+<li><p>Optional option-arguments MUST be option-argument bundled. <a class="reference internal" href="#b" id="id62"><span>[12.1.2.b]</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ xargs -i{}
+</code></pre></div>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Hint</p>
+<p>This is required to distinguish option-arguments from operands. However, optional
+option-arguments are not recommended in the first place. See <a class="reference internal" href="#mandatory-option-arguments">4. Mandatory Option Arguments</a>.</p>
+</div>
+</li>
+</ol>
+<p>Now, we will look at some other practices that are relatively rare by now.</p>
+<ol class="arabic" start="6">
+<li><p>Flags (as in boolean switch options) were sometimes signified by prefixes <code class="docutils literal notranslate"><span class="pre">-</span></code> and <code class="docutils literal notranslate"><span class="pre">+</span></code> to turn an
+option on and off respectively.</p>
+<div class="example admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ setopt -x
+$ setopt +x
+</code></pre></div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>This style seems to originate in the <a class="reference internal" href="#x-toolkit-style" id="id63"><span>[X-Toolkit-Style]</span></a></p>
+</div>
+</li>
+<li><p>Flags may also be realized by switching the letter case with e.g. <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag being on and <code class="docutils literal notranslate"><span class="pre">-D</span></code>
+flag being off <a class="footnote-reference brackets" href="#id83" id="id64">10</a>.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>This seems to originate from UNIX style on a ASR-33 teletypes
+<a class="reference internal" href="#tao-command-line-options" id="id65"><span>[TaO-Command-Line-Options]</span></a>:</p>
+<a class="reference external image-reference" href="https://en.wikipedia.org/wiki/Teletype_Model_33"><img alt="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Teletype-IMG_7287.jpg/450px-Teletype-IMG_7287.jpg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Teletype-IMG_7287.jpg/450px-Teletype-IMG_7287.jpg" /></a>
+</div>
+</li>
+<li><p>Some programs may also accept short opts without the <code class="docutils literal notranslate"><span class="pre">-</span></code> signifier. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code>$ ps eof
+</code></pre></div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>The <em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/ps(1)">ps(1)</a></em> indicates this style originates from some kind of BSD. Why is this
+distinct from UNIX eludes me.</p>
+</div>
+</li>
+</ol>
+<h3 id="thanks-i-hate-this"><a class="toc-backref" href="#id154">Thanks, I Hate This</a><a class="headerlink" href="#thanks-i-hate-this" title="Permalink to this heading">¶</a></h3>
+<p>The <a class="reference internal" href="#susv4-2018" id="id66"><span>[SUSv4-2018]</span></a> seems well formed and relatively straightforward but it <em>is not</em> an easy read.
+It is actually pretty confusing at several places.</p>
+<p>The important thing to realize when reading <a class="reference internal" href="#susv4-2018" id="id67"><span>[SUSv4-2018]</span></a> is that <a class="reference internal" href="#a" id="id68"><span>[12.1.2.a]</span></a> refers to “standard
+utility” <a class="footnote-reference brackets" href="#id86" id="id69">13</a> which is quite easy to miss. Actually the entire <a class="reference internal" href="#id90" id="id70"><span>[12.1.2]</span></a> and related guidelines
+require careful deconstruction.</p>
+<p>Thanks, I hate it and I hope to never see <a class="reference internal" href="#xbd-utility-conventions" id="id71"><span>[XBD-Utility-Conventions]</span></a> again.</p>
+<h2 id="backlog"><a class="toc-backref" href="#id132">Backlog</a><a class="headerlink" href="#backlog" title="Permalink to this heading">¶</a></h2>
+<p>This document still suffers from:</p>
+<ul>
+<li><p>missing guidelines on some edge cases</p></li>
+<li><p>inconsistent phrasing</p></li>
+<li><p>inconsistent use of admonitions</p></li>
+<li><p>some terms may be over-specified</p></li>
+<li><p>some terms may be under-specified</p></li>
+<li><p>missing section on conformity status of existing argument parsing solutions</p></li>
+<li><p>The <a class="reference internal" href="#susv4">1. SUSv4</a> section mentions relatively lot best current practices that violate it. May be the
+structuring into sections by standards should be abandoned by now.</p></li>
+<li><p>I know this document violates rfc2119 section 6 and I don’t care. I find it useful. This is not a
+an internet standard. It’s not even a standard. It’s an</p>
+<img alt="old man yelling at cloud" src="../_images/old-man-yells-at-cloud.png" />
+</li>
+</ul>
+<p>Any contradictions, ambiguities, typographical issues, inconsistencies, or complaints shall be
+directed to <span class="strike">/dev/null</span> <a class="reference external" href="mailto:jan&#37;&#52;&#48;matejka&#46;ninja">jan<span>&#64;</span>matejka<span>&#46;</span>ninja</a></p>
+<h2 id="references"><a class="toc-backref" href="#id133">References</a><a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id73"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id5">2</a>)</span></dt>
+<dd><p>ISO/IEC 9899:2018 Information technology — Programming languages — C
+<a class="reference external" href="https://www.iso.org/standard/74528.html">https://www.iso.org/standard/74528.html</a> Section 5.1.2.2.1 Program startup</p>
+</dd>
+<dt class="label" id="id74"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://publications.gbdirect.co.uk//c_book/chapter10/arguments_to_main.html">https://publications.gbdirect.co.uk//c_book/chapter10/arguments_to_main.html</a></p>
+</dd>
+<dt class="label" id="id75"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><ul class="simple">
+<li><p><a class="reference external" href="https://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/">https://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Call_stack">https://en.wikipedia.org/wiki/Call_stack</a></p></li>
+</ul>
+</dd>
+<dt class="label" id="id76"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/jan-matejka/code-golf/blob/master/2.echo-argv/nasm/main.asm">https://github.com/jan-matejka/code-golf/blob/master/2.echo-argv/nasm/main.asm</a></p>
+</dd>
+<dt class="label" id="id77"><span class="brackets"><a class="fn-backref" href="#id6">5</a></span></dt>
+<dd><ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/BusyBox">https://en.wikipedia.org/wiki/BusyBox</a></p></li>
+<li><p><a class="reference external" href="https://www.busybox.net/">https://www.busybox.net/</a></p></li>
+</ul>
+</dd>
+<dt class="label" id="id78"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
+<dd><p><a class="reference external" href="https://www.busybox.net/FAQ.html#source_applets">https://www.busybox.net/FAQ.html#source_applets</a></p>
+</dd>
+<dt class="label" id="id79"><span class="brackets"><a class="fn-backref" href="#id51">7</a></span></dt>
+<dd><ul class="simple">
+<li><p><a class="reference external" href="http://www.catb.org/~esr/writings/taoup/html/ch06s06.html">http://www.catb.org/~esr/writings/taoup/html/ch06s06.html</a></p></li>
+<li><p><a class="reference external" href="https://cr.yp.to/djb.html">https://cr.yp.to/djb.html</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Continuation-passing_style">https://en.wikipedia.org/wiki/Continuation-passing_style</a></p></li>
+</ul>
+</dd>
+<dt class="label" id="id80"><span class="brackets"><a class="fn-backref" href="#id81">8</a></span></dt>
+<dd><p><a class="reference external" href="https://stackoverflow.com/questions/402377/using-getopts-to-process-long-and-short-command-line-options">https://stackoverflow.com/questions/402377/using-getopts-to-process-long-and-short-command-line-options</a>
+<a class="footnote-reference brackets" href="#id80" id="id81">8</a></p>
+</dd>
+<dt class="label" id="id82"><span class="brackets"><a class="fn-backref" href="#id46">9</a></span></dt>
+<dd><p>“We consider standards such as POSIX; we don’t “obey” them.”
+<a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Program-Behavior.html#Program-Behavior">https://www.gnu.org/prep/standards/html_node/Program-Behavior.html#Program-Behavior</a></p>
+</dd>
+<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id64">10</a></span></dt>
+<dd><p><a class="reference external" href="https://stackoverflow.com/questions/8957222/are-there-standards-for-linux-command-line-switches-and-arguments">https://stackoverflow.com/questions/8957222/are-there-standards-for-linux-command-line-switches-and-arguments</a></p>
+</dd>
+<dt class="label" id="id84"><span class="brackets"><a class="fn-backref" href="#id55">11</a></span></dt>
+<dd><ul class="simple">
+<li><p>One of the characters that belong to the blank character class as defined via the LC_CTYPE
+category in the current locale. In the POSIX locale, a &lt;blank&gt; character is either a &lt;tab&gt; or a
+&lt;space&gt;.</p></li>
+<li><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_74">https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_74</a></p></li>
+</ul>
+</dd>
+<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id16">12</a></span></dt>
+<dd><dl class="simple">
+<dt>Utility:</dt><dd><p>A program, excluding special built-in utilities provided as part of the Shell Command Language,
+that can be called by name from a shell to perform a specific task, or related set of tasks.</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_439">https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_439</a></p>
+</dd>
+<dt class="label" id="id86"><span class="brackets"><a class="fn-backref" href="#id69">13</a></span></dt>
+<dd><dl class="simple">
+<dt>Standard Utilities</dt><dd><p>The utilities described in the Shell and Utilities volume of POSIX.1-2017
+<a class="reference internal" href="#xcu-shell-and-utilities" id="id87"><span>[XCU-Shell-And-Utilities]</span></a>.</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_369">https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_369</a></p>
+</dd>
+<dt class="label" id="id88"><span class="brackets"><a class="fn-backref" href="#id48">14</a></span></dt>
+<dd><p><a class="reference external" href="https://golangexample.com/golang-library-with-posix-compliant-command-line-ui-cli-and-hierarchical-configuration/">https://golangexample.com/golang-library-with-posix-compliant-command-line-ui-cli-and-hierarchical-configuration/</a></p>
+</dd>
+</dl>
+<dl class="citation">
+<dt class="label" id="id89"><span class="brackets">12.1.1</span><span class="fn-backref">(<a href="#id19">1</a>,<a href="#id22">2</a>)</span></dt>
+<dd><p>Section 12.1 paragraph 1 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id90"><span class="brackets">12.1.2</span><span class="fn-backref">(<a href="#id26">1</a>,<a href="#id57">2</a>,<a href="#id59">3</a>,<a href="#id70">4</a>)</span></dt>
+<dd><p>Section 12.1 paragraph 2 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="a"><span class="brackets">12.1.2.a</span><span class="fn-backref">(<a href="#id27">1</a>,<a href="#id60">2</a>,<a href="#id68">3</a>)</span></dt>
+<dd><p>Section 12.1 paragraph 2.a in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="b"><span class="brackets">12.1.2.b</span><span class="fn-backref">(<a href="#id61">1</a>,<a href="#id62">2</a>)</span></dt>
+<dd><p>Section 12.1 paragraph 2.b in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id91"><span class="brackets">12.1.3</span><span class="fn-backref">(<a href="#id31">1</a>,<a href="#id32">2</a>,<a href="#id34">3</a>,<a href="#id35">4</a>,<a href="#id39">5</a>)</span></dt>
+<dd><p>Section 12.1 paragraph 3 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id92"><span class="brackets"><a class="fn-backref" href="#id58">12.1.7</a></span></dt>
+<dd><p>Section 12.1 paragraph 6 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id93"><span class="brackets"><a class="fn-backref" href="#id36">12.1.9</a></span></dt>
+<dd><p>Section 12.1 paragraph 9 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="utility-syntax-guidelines"><span class="brackets"><a class="fn-backref" href="#id14">12.2-Utility-Syntax-Guidelines</a></span></dt>
+<dd><p>Section 12.2 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id94"><span class="brackets"><a class="fn-backref" href="#id20">12.2.3</a></span></dt>
+<dd><p>Section 12.2 Guideline 3 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id21">12.2.4</a></span></dt>
+<dd><p>Section 12.2 Guideline 4 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id96"><span class="brackets"><a class="fn-backref" href="#id28">12.2.5</a></span></dt>
+<dd><p>Section 12.2 Guideline 4 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id97"><span class="brackets"><a class="fn-backref" href="#id25">12.2.6</a></span></dt>
+<dd><p>Section 12.2 Guideline 6 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id98"><span class="brackets"><a class="fn-backref" href="#id23">12.2.7</a></span></dt>
+<dd><p>Section 12.2 Guideline 7 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id99"><span class="brackets"><a class="fn-backref" href="#id56">12.2.8</a></span></dt>
+<dd><p>Section 12.2 Guideline 8 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id100"><span class="brackets">12.2.9</span><span class="fn-backref">(<a href="#id18">1</a>,<a href="#id54">2</a>)</span></dt>
+<dd><p>Section 12.2 Guideline 9 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id101"><span class="brackets"><a class="fn-backref" href="#id42">12.2.10</a></span></dt>
+<dd><p>Section 12.2 Guideline 10 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id102"><span class="brackets">12.2.11</span><span class="fn-backref">(<a href="#id30">1</a>,<a href="#id33">2</a>,<a href="#id37">3</a>,<a href="#id38">4</a>,<a href="#id40">5</a>,<a href="#id41">6</a>)</span></dt>
+<dd><p>Section 12.2 Guideline 11 in SUSv4-2018.</p>
+</dd>
+</dl>
+<dl class="citation">
+<dt class="label" id="id103"><span class="brackets"><a class="fn-backref" href="#id43">12.2.13</a></span></dt>
+<dd><p>Section 12.2 Guideline 13 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="id104"><span class="brackets"><a class="fn-backref" href="#id29">12.2.14</a></span></dt>
+<dd><p>Section 12.2 Guideline 14 in SUSv4-2018.</p>
+</dd>
+<dt class="label" id="gnu-coding-standards-4-8"><span class="brackets">GNU-Coding-Standards-4.8</span><span class="fn-backref">(<a href="#id11">1</a>,<a href="#id44">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Command_002dLine-Interfaces.html">https://www.gnu.org/prep/standards/html_node/Command_002dLine-Interfaces.html</a></p>
+</dd>
+<dt class="label" id="tao-command-line-options"><span class="brackets">TaO-Command-Line-Options</span><span class="fn-backref">(<a href="#id49">1</a>,<a href="#id52">2</a>,<a href="#id65">3</a>)</span></dt>
+<dd><p><a class="reference external" href="http://catb.org/~esr/writings/taoup/html/ch10s05.html">http://catb.org/~esr/writings/taoup/html/ch10s05.html</a></p>
+</dd>
+<dt class="label" id="x-toolkit-style"><span class="brackets"><a class="fn-backref" href="#id63">X-Toolkit-Style</a></span></dt>
+<dd><p><a class="reference external" href="https://www.x.org/releases/X11R7.7/doc/libXt/intrinsics.html#Parsing_the_Command_Line">https://www.x.org/releases/X11R7.7/doc/libXt/intrinsics.html#Parsing_the_Command_Line</a></p>
+</dd>
+<dt class="label" id="c17"><span class="brackets"><a class="fn-backref" href="#id105">C17</a></span></dt>
+<dd><p>ISO/IEC9899:2017</p>
+</dd>
+<dt class="label" id="c17-5-1-2-2-1"><span class="brackets"><a class="fn-backref" href="#id8">C17-5.1.2.2.1</a></span></dt>
+<dd><p><a class="reference internal" href="#c17" id="id105"><span>[C17]</span></a> $ 5.1.2.2.1</p>
+</dd>
+<dt class="label" id="defacto"><span class="brackets"><a class="fn-backref" href="#id50">DeFacto</a></span></dt>
+<dd><ul class="simple">
+<li><p>A de facto standard is a custom or convention that has achieved a dominant position by
+public acceptance or market forces.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/De_facto_standard">https://en.wikipedia.org/wiki/De_facto_standard</a></p></li>
+<li><p>Campbell, Robert; Pentz, Ed; Borthwick, Ian (2012).
+<a class="reference external" href="https://www.oreilly.com/library/view/academic-and-professional/9781843346692/">Academic and Professional Publishing</a>.
+Chandos Publishing. p. 9.</p></li>
+</ul>
+</dd>
+<dt class="label" id="susv4-2018"><span class="brackets">SUSv4-2018</span><span class="fn-backref">(<a href="#id10">1</a>,<a href="#id12">2</a>,<a href="#id15">3</a>,<a href="#id17">4</a>,<a href="#id24">5</a>,<a href="#id45">6</a>,<a href="#id47">7</a>,<a href="#id53">8</a>,<a href="#id66">9</a>,<a href="#id67">10</a>)</span></dt>
+<dd><ul class="simple">
+<li><p>Single Unix Specification 2018 edition</p></li>
+<li><p>SUSv4 2018 edition is simultaneously POSIX.1-2017 and IEEE Std 1003.1™-2017 and The Open Group
+Technical Standard Base Specifications, Issue 7.</p></li>
+<li><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/">https://pubs.opengroup.org/onlinepubs/9699919799/</a></p></li>
+<li><p><em class="manpage"><a class="manpage reference external" href="https://manpages.debian.org/standards(7)">standards(7)</a></em></p></li>
+</ul>
+</dd>
+<dt class="label" id="xbd-utility-conventions"><span class="brackets">XBD-Utility-Conventions</span><span class="fn-backref">(<a href="#id13">1</a>,<a href="#id71">2</a>)</span></dt>
+<dd><ul class="simple">
+<li><p>SUSv4 2018 edition Volume XBD Section 12. Utility Conventions</p></li>
+<li><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html#tag_12">https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html#tag_12</a></p></li>
+</ul>
+</dd>
+<dt class="label" id="xcu-shell-and-utilities"><span class="brackets"><a class="fn-backref" href="#id87">XCU-Shell-And-Utilities</a></span></dt>
+<dd><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/toc.html">https://pubs.opengroup.org/onlinepubs/9699919799/utilities/toc.html</a></p>
+</dd>
+</dl>
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../links.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Links" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Links
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="lang/gnumake.html" class="md-footer__link md-footer__link--next" aria-label="Next: GNU Make Coding Guide" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              GNU Make Coding Guide
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, Jan Matějka.
+        
+    </div>
+  
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+    
+  </body>
+</html>

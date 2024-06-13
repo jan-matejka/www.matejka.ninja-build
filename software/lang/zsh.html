@@ -1,0 +1,910 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>Zsh Scripting Guide - Jan Matějka</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../_static/matejka.css" />
+        <link rel="stylesheet" type="text/css" href="../../_static/sphinx_immaterial_theme.07b60405deca57041.min.css" />
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-HBSC0RW1T5"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-HBSC0RW1T5",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-HBSC0RW1T5",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../index.html" title="Jan Matějka" class="md-header__button md-logo" aria-label="Jan Matějka" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jan Matějka
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Zsh Scripting Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="Jan Matějka" class="md-nav__button md-logo" aria-label="Jan Matějka" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    Jan Matějka
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about.html" class="md-nav__link">
+        <span class="md-ellipsis">About</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../links.html" class="md-nav__link">
+        <span class="md-ellipsis">Links</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../argv.html" class="md-nav__link">
+        <span class="md-ellipsis">The Ultimate Guide to Argv</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gnumake.html" class="md-nav__link">
+        <span class="md-ellipsis">GNU Make Coding Guide</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-ellipsis">Zsh Scripting Guide</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">Zsh Scripting Guide</span>
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span title="software/lang/zsh:introduction (reference label)" class="md-ellipsis">Introduction</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span title="software/lang/zsh:conventions (reference label)" class="md-ellipsis">Conventions</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simple-techniques" class="md-nav__link">
+    <span title="software/lang/zsh:simple techniques (reference label)" class="md-ellipsis">Simple Techniques</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simple Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#array-expansion" class="md-nav__link">
+    <span title="software/lang/zsh:array expansion (reference label)" class="md-ellipsis">Array Expansion</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#array-indexing" class="md-nav__link">
+    <span title="software/lang/zsh:array indexing (reference label)" class="md-ellipsis">Array Indexing</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-a-value-present-in-array" class="md-nav__link">
+    <span title="software/lang/zsh:is a value present in array? (reference label)" class="md-ellipsis">Is a Value Present in Array?</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#does-a-key-exist" class="md-nav__link">
+    <span title="software/lang/zsh:does a key exist? (reference label)" class="md-ellipsis">Does a key exist?</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-techniques" class="md-nav__link">
+    <span title="software/lang/zsh:architectural techniques (reference label)" class="md-ellipsis">Architectural Techniques</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#argument-parsing" class="md-nav__link">
+    <span title="software/lang/zsh:argument parsing (reference label)" class="md-ellipsis">Argument Parsing</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span title="software/lang/zsh:debugging (reference label)" class="md-ellipsis">Debugging</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-case-for-scripting" class="md-nav__link">
+    <span title="software/lang/zsh:practical case for scripting (reference label)" class="md-ellipsis">Practical Case for Scripting</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#philosophical-case-for-scripting" class="md-nav__link">
+    <span title="software/lang/zsh:philosophical case for scripting (reference label)" class="md-ellipsis">Philosophical Case for Scripting</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#techniques-applied" class="md-nav__link">
+    <span title="software/lang/zsh:techniques applied (reference label)" class="md-ellipsis">Techniques Applied</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span title="software/lang/zsh:acknowledgements (reference label)" class="md-ellipsis">Acknowledgements</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span title="software/lang/zsh:references (reference label)" class="md-ellipsis">References</span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="bash.html" class="md-nav__link">
+        <span class="md-ellipsis">Shell Scripting Survival Guide</span>
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span title="software/lang/zsh:introduction (reference label)" class="md-ellipsis">Introduction</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span title="software/lang/zsh:conventions (reference label)" class="md-ellipsis">Conventions</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simple-techniques" class="md-nav__link">
+    <span title="software/lang/zsh:simple techniques (reference label)" class="md-ellipsis">Simple Techniques</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simple Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#array-expansion" class="md-nav__link">
+    <span title="software/lang/zsh:array expansion (reference label)" class="md-ellipsis">Array Expansion</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#array-indexing" class="md-nav__link">
+    <span title="software/lang/zsh:array indexing (reference label)" class="md-ellipsis">Array Indexing</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-a-value-present-in-array" class="md-nav__link">
+    <span title="software/lang/zsh:is a value present in array? (reference label)" class="md-ellipsis">Is a Value Present in Array?</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#does-a-key-exist" class="md-nav__link">
+    <span title="software/lang/zsh:does a key exist? (reference label)" class="md-ellipsis">Does a key exist?</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-techniques" class="md-nav__link">
+    <span title="software/lang/zsh:architectural techniques (reference label)" class="md-ellipsis">Architectural Techniques</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#argument-parsing" class="md-nav__link">
+    <span title="software/lang/zsh:argument parsing (reference label)" class="md-ellipsis">Argument Parsing</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span title="software/lang/zsh:debugging (reference label)" class="md-ellipsis">Debugging</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-case-for-scripting" class="md-nav__link">
+    <span title="software/lang/zsh:practical case for scripting (reference label)" class="md-ellipsis">Practical Case for Scripting</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#philosophical-case-for-scripting" class="md-nav__link">
+    <span title="software/lang/zsh:philosophical case for scripting (reference label)" class="md-ellipsis">Philosophical Case for Scripting</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#techniques-applied" class="md-nav__link">
+    <span title="software/lang/zsh:techniques applied (reference label)" class="md-ellipsis">Techniques Applied</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span title="software/lang/zsh:acknowledgements (reference label)" class="md-ellipsis">Acknowledgements</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span title="software/lang/zsh:references (reference label)" class="md-ellipsis">References</span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="zsh-scripting-guide"><a class="toc-backref" href="#id19">Zsh Scripting Guide</a><a class="headerlink" href="#zsh-scripting-guide" title="Permalink to this heading">¶</a></h1>
+<p>By <a class="reference external" href="https://matejka.ninja">Jan Matějka</a>, June 04, 2019</p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#zsh-scripting-guide" id="id19">Zsh Scripting Guide</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id20">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#simple-techniques" id="id21">Simple Techniques</a></p></li>
+<li><p><a class="reference internal" href="#architectural-techniques" id="id22">Architectural Techniques</a></p></li>
+<li><p><a class="reference internal" href="#practical-case-for-scripting" id="id23">Practical Case for Scripting</a></p></li>
+<li><p><a class="reference internal" href="#philosophical-case-for-scripting" id="id24">Philosophical Case for Scripting</a></p></li>
+<li><p><a class="reference internal" href="#techniques-applied" id="id25">Techniques Applied</a></p></li>
+<li><p><a class="reference internal" href="#acknowledgements" id="id26">Acknowledgements</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id27">References</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="introduction"><a class="toc-backref" href="#id20">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>This guide is continuation of <a class="reference internal" href="bash.html"><span class="doc">Shell Scripting Survival Guide</span></a> which got us surprisingly far but
+still falls short of achieving its goals.  In this guide, we will pick up Zsh and show further
+techniques to boost convenience, productivity and increase the problem space that is possible to
+solve with shell scripting (mostly aspirational at the moment).</p>
+<p>Understanding topics at <a class="reference internal" href="bash.html"><span class="doc">Shell Scripting Survival Guide</span></a> is essential reading for this guide.</p>
+<h3 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permalink to this heading">¶</a></h3>
+<p>Same conventions as in <a class="reference internal" href="bash.html"><span class="doc">Shell Scripting Survival Guide</span></a> apply.</p>
+<h2 id="simple-techniques"><a class="toc-backref" href="#id21">Simple Techniques</a><a class="headerlink" href="#simple-techniques" title="Permalink to this heading">¶</a></h2>
+<p>Just like in <a class="reference internal" href="bash.html"><span class="doc">Shell Scripting Survival Guide</span></a>, we will start with demonstrating some simple
+techniques and then continue to <a class="reference internal" href="#architectural-techniques">Architectural Techniques</a>.</p>
+<h3 id="array-expansion">Array Expansion<a class="headerlink" href="#array-expansion" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">$foo</span></code> is sufficient to expand an array in Zsh <a class="footnote-reference brackets" href="#id16" id="id1">8</a>. Whereas in Bash you would only get the first
+element and need to use the clunky <code class="docutils literal notranslate"><span class="pre">${foo[&#64;]}</span></code> syntax.</p>
+<p>This seems like a minor syntactical improvement but is incredibly annoying once you get used to Zsh
+and need to get back to Bash.</p>
+<h3 id="array-indexing">Array Indexing<a class="headerlink" href="#array-indexing" title="Permalink to this heading">¶</a></h3>
+<p>Bash array indexes from <code class="docutils literal notranslate"><span class="pre">0</span></code> while Zsh indexes start at <code class="docutils literal notranslate"><span class="pre">1</span></code>. This is good and important for <a class="reference internal" href="#is-a-value-present-in-array">Is
+a Value Present in Array?</a>.</p>
+<h3 id="is-a-value-present-in-array">Is a Value Present in Array?<a class="headerlink" href="#is-a-value-present-in-array" title="Permalink to this heading">¶</a></h3>
+<p>Assuming an array <code class="docutils literal notranslate"><span class="pre">pargs</span></code> and boolean flag <code class="docutils literal notranslate"><span class="pre">-v</span></code>, we may have either <code class="docutils literal notranslate"><span class="pre">pargs=(</span> <span class="pre">-v</span> <span class="pre">)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">pargs=(</span> <span class="pre">&quot;whatever</span> <span class="pre">but</span> <span class="pre">-v&quot;</span> <span class="pre">)</span></code> and you want to know whether <code class="docutils literal notranslate"><span class="pre">'-v'</span></code> is an element in <code class="docutils literal notranslate"><span class="pre">pargs</span></code>.</p>
+<p>There is no good solution in Bash. Zsh solution is bit cryptic but essentially simple:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="si">${</span><span class="nv">pargs</span><span class="p">[(I)-v]</span><span class="si">}</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">   </span><span class="nb">printf</span><span class="w"> </span>--<span class="w"> </span><span class="s2">&quot;-v is present in pargs&quot;</span>
+<span class="k">else</span>
+<span class="w">   </span><span class="nb">printf</span><span class="w"> </span>--<span class="w"> </span><span class="s2">&quot;-v is not present in pargs&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+</div>
+<p>The trick here is</p>
+<ol class="arabic simple">
+<li><p>By subscript flag <code class="docutils literal notranslate"><span class="pre">(I)</span></code> we indicate we want to get an index of value <code class="docutils literal notranslate"><span class="pre">-v</span></code> from array
+<code class="docutils literal notranslate"><span class="pre">pargs</span></code> <a class="footnote-reference brackets" href="#id15" id="id2">7</a>. If the value is not present in array, 0 is returned and that is ok, because 0 is
+not a valid index in Zsh.</p></li>
+<li><p>Then the index is arithmetically evaluated <a class="footnote-reference brackets" href="#id14" id="id3">6</a> as either <code class="docutils literal notranslate"><span class="pre">((</span> <span class="pre">0</span> <span class="pre">))</span></code> which yields false, or
+<code class="docutils literal notranslate"><span class="pre">((</span> <span class="pre">n</span> <span class="pre">))</span></code> which yields true.</p></li>
+<li><p>And we have a simple pattern to check if a value is an element of array.</p></li>
+</ol>
+<h3 id="does-a-key-exist">Does a key exist?<a class="headerlink" href="#does-a-key-exist" title="Permalink to this heading">¶</a></h3>
+<p>I did not find a way to ask directly for key presence, but we may get an array of keys of an
+associative array via an expansion flag: <code class="docutils literal notranslate"><span class="pre">${(k)aarray}</span></code> and then it becomes
+a <a class="reference internal" href="#is-a-value-present-in-array">Is a Value Present in Array?</a> problem again <a class="footnote-reference brackets" href="#id18" id="id4">10</a>.</p>
+<p>Furthermore, we can nest the expansions in Zsh (can not be done in Bash).</p>
+<p>Putting it together, you get:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><code><span class="nb">declare</span><span class="w"> </span>-A<span class="w"> </span>map
+map<span class="o">[</span>foo<span class="o">]=</span>bar
+
+<span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;foo %d\n&quot;</span><span class="w"> </span><span class="si">${${</span><span class="p">(k)map</span><span class="si">}</span><span class="p">[(I)foo]</span><span class="si">}</span>
+<span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;bar %d\n&quot;</span><span class="w"> </span><span class="si">${${</span><span class="p">(k)map</span><span class="si">}</span><span class="p">[(I)bar]</span><span class="si">}</span>
+</code></pre></div>
+</div>
+<h2 id="architectural-techniques"><a class="toc-backref" href="#id22">Architectural Techniques</a><a class="headerlink" href="#architectural-techniques" title="Permalink to this heading">¶</a></h2>
+<h3 id="argument-parsing">Argument Parsing<a class="headerlink" href="#argument-parsing" title="Permalink to this heading">¶</a></h3>
+<p>Zsh provides <code class="docutils literal notranslate"><span class="pre">zshparseopts</span></code> <a class="footnote-reference brackets" href="#id11" id="id5">3</a> that is much easier than whatever Bash has to offer:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env zsh</span>
+
+<span class="nv">SELF</span><span class="o">=</span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span>
+.<span class="w"> </span>foo_prelude
+
+<span class="nb">declare</span><span class="w"> </span>-a<span class="w"> </span>pargs
+<span class="nb">declare</span><span class="w"> </span>-A<span class="w"> </span>paargs
+
+zparseopts<span class="w"> </span>-K<span class="w"> </span>-D<span class="w"> </span>-apargs<span class="w"> </span>-Apaargs<span class="w"> </span>flag<span class="w"> </span>-key:
+<span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;flag=%s key=%s\n&quot;</span><span class="w"> </span><span class="si">${</span><span class="nv">pargs</span><span class="p">[(I)-flag]</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">paargs</span><span class="p">[--key]</span><span class="si">}</span>
+<span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%s\n&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$*</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<p>result:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span class="o">%</span> <span class="n">zsh</span> <span class="n">foo</span><span class="o">-</span><span class="n">cmd1</span><span class="o">.</span><span class="n">zsh</span> <span class="n">foo</span>
+<span class="n">flag</span><span class="o">=</span><span class="mi">0</span> <span class="n">key</span><span class="o">=</span>
+<span class="n">foo</span>
+
+<span class="o">%</span> <span class="n">zsh</span> <span class="n">foo</span><span class="o">-</span><span class="n">cmd1</span><span class="o">.</span><span class="n">zsh</span> <span class="o">-</span><span class="n">flag</span> <span class="o">--</span><span class="n">key</span> <span class="n">val</span> <span class="n">foo</span>
+<span class="n">flag</span><span class="o">=</span><span class="mi">1</span> <span class="n">key</span><span class="o">=</span><span class="n">val</span>
+<span class="n">foo</span>
+</code></pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">zparseopts</span></code> will consume argv according to the given spec and set the results into arrays
+<code class="docutils literal notranslate"><span class="pre">pargs</span></code> and <code class="docutils literal notranslate"><span class="pre">paargs</span></code>. Note it won’t just parse it, it will <em>consume</em> it from argv. We do not
+need to adjust argv as we do in Bash.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pargs</span></code> and <code class="docutils literal notranslate"><span class="pre">paargs</span></code> are named as such by convention as Parsed Arguments, and Parsed Associative
+Arguments. The <code class="docutils literal notranslate"><span class="pre">p</span></code> prefix is not an overspecification here as it is often desirable to have
+<code class="docutils literal notranslate"><span class="pre">args</span></code> variable free to use for command that is about to be executed <a class="footnote-reference brackets" href="#id10" id="id6">1</a> using the Breaking Long
+Lines technique from <a class="reference internal" href="bash.html"><span class="doc">Shell Scripting Survival Guide</span></a></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">${pargs[(I)-flag]}</span></code> is a trick described at <a class="reference internal" href="#is-a-value-present-in-array">Is a Value Present in Array?</a></p>
+<h3 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">¶</a></h3>
+<p>This is in principle the same as in bash but we can use more succinct argument parsing and we get
+much better looking output as Zsh will include the function names and line numbers in the output of
+xtrace <a class="footnote-reference brackets" href="#id12" id="id7">4</a>.</p>
+<p>foo code:</p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env zsh</span>
+
+<span class="nv">SELF</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
+.<span class="w"> </span>foo_prelude
+
+<span class="nb">declare</span><span class="w"> </span>-a<span class="w"> </span>pargs
+<span class="nb">declare</span><span class="w"> </span>-A<span class="w"> </span>paargs
+
+zparseopts<span class="w"> </span>-K<span class="w"> </span>-D<span class="w"> </span>-a<span class="w"> </span>pargs<span class="w"> </span>-Apaargs<span class="w"> </span>x
+
+<span class="o">((</span><span class="w"> </span><span class="si">${</span><span class="nv">pargs</span><span class="p">[(I)-x]</span><span class="si">}</span><span class="w"> </span><span class="o">))</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nb">set</span><span class="w"> </span>-x
+<span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">FOO_XTRACE</span><span class="o">=</span><span class="nb">true</span>
+<span class="o">}</span>
+
+foo_dispatch<span class="w"> </span><span class="nv">$SELF</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<p>Since <code class="docutils literal notranslate"><span class="pre">x</span></code> is just a boolean flag, it will appear as was specified on command line in <code class="docutils literal notranslate"><span class="pre">pargs</span></code>.
+We check if <code class="docutils literal notranslate"><span class="pre">-x</span></code> is in <code class="docutils literal notranslate"><span class="pre">pargs</span></code> using the <a class="reference internal" href="#is-a-value-present-in-array">Is a Value Present in Array?</a> technique and the rest
+is the same as in Bash.</p>
+<h2 id="practical-case-for-scripting"><a class="toc-backref" href="#id23">Practical Case for Scripting</a><a class="headerlink" href="#practical-case-for-scripting" title="Permalink to this heading">¶</a></h2>
+<p>Writing programs in shell scripts can be very efficient on the time spent programming as exemplified
+by the famous case of most frequently used words problem solved by D. E. Knuth and M. D. McIlroy
+<a class="footnote-reference brackets" href="#id13" id="id8">5</a>.</p>
+<p>It may include features for free. Assuming your code uses <code class="docutils literal notranslate"><span class="pre">curl</span></code> internally and you want to access
+the remote server via a proxy. All you need to do is export <code class="docutils literal notranslate"><span class="pre">http_proxy</span></code> or if you integrate
+<code class="docutils literal notranslate"><span class="pre">envdir</span></code> you get it for free even in your configuration options.</p>
+<p>Shell friendly solutions are also the most simple solutions to implement and just knowing these may
+help you focus on the problem and not on cruft around it like relatively complicated configuration
+formats or argument parsing that may get you sidetracked.</p>
+<p>The shell solutions are applicable in general purpose languages as well. For example, argument
+parsing with subcommand dispatch becomes much simpler and once you see that, all the argument
+parsing libraries become needless monstrosities.</p>
+<p>While you can expect shell script to not be efficient in terms of computer resources and especially
+large data sets. They will often do the job good enough and occasionally may perform even better
+because they will be done with the problem before languages like python will even just load its
+runtime and standard library. Or the script may also be trivially parallelizable via <code class="docutils literal notranslate"><span class="pre">xargs</span></code>.</p>
+<p>If you look at any shell script, it is just a glue for more performant or complex
+programs like <code class="docutils literal notranslate"><span class="pre">git</span></code> or <code class="docutils literal notranslate"><span class="pre">curl</span></code>, they are just some else’s code. Shell scripts should be nothing
+more than a glue. With the demonstrated architecture, if performance or complexity becomes a
+problem, you can easily upgrade the critical parts into more suitable languages. The only difference
+will be that it is your code and you just to figure out the proper interfaces.</p>
+<p>Finally, it would be good to know for what kind of problems shell scripting is suitable.
+This is difficult. My suspicion is that it serves very well as a skeleton for any CLI program and
+further can solve issues that require data structures not more complicated than a one or two
+hashmaps with low cyclomatic complexity.</p>
+<h2 id="philosophical-case-for-scripting"><a class="toc-backref" href="#id24">Philosophical Case for Scripting</a><a class="headerlink" href="#philosophical-case-for-scripting" title="Permalink to this heading">¶</a></h2>
+<p>Simple solutions are sometimes obvious and sometimes takes years to find. By using shell for
+problems that seem should be solvable in shell, you may find simpler solutions than you would get
+with more powerful language.</p>
+<p>It just might be the difference between getting the core working and iterating it into something
+publishable and between getting bogged down with trying to solve too many problems at once.</p>
+<h2 id="techniques-applied"><a class="toc-backref" href="#id25">Techniques Applied</a><a class="headerlink" href="#techniques-applied" title="Permalink to this heading">¶</a></h2>
+<p>For real world software using these techniques, you may check out</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jan-matejka/soapcli">https://github.com/jan-matejka/soapcli</a> TUI SOAP client</p></li>
+<li><p><a class="reference external" href="https://github.com/jan-matejka/cnb">https://github.com/jan-matejka/cnb</a> CLI interface to <a class="reference external" href="http://cnb.cz">http://cnb.cz</a> daily rates</p></li>
+</ul>
+<h2 id="acknowledgements"><a class="toc-backref" href="#id26">Acknowledgements</a><a class="headerlink" href="#acknowledgements" title="Permalink to this heading">¶</a></h2>
+<p>Thanks to <code class="docutils literal notranslate"><span class="pre">Roman</span> <span class="pre">Neuhauser</span></code> <a class="footnote-reference brackets" href="#id17" id="id9">9</a> who I learned much from.</p>
+<h2 id="references"><a class="toc-backref" href="#id27">References</a><a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id6">1</a></span></dt>
+<dd><p>This is the case of long argv splitting at <code class="docutils literal notranslate"><span class="pre">Breaking</span> <span class="pre">long</span> <span class="pre">lines</span></code> at
+<a class="reference external" href="https://www.matejka.ninja/software/lang/bash.html">https://www.matejka.ninja/software/lang/bash.html</a></p>
+</dd>
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">1</span> <span class="pre">zshmodules</span></code> <a class="reference external" href="https://linux.die.net/man/1/zshmodules">https://linux.die.net/man/1/zshmodules</a></p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id7">4</a></span></dt>
+<dd><p>XTRACE in <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">1</span> <span class="pre">zshoptions</span></code> <a class="reference external" href="https://linux.die.net/man/1/zshoptions">https://linux.die.net/man/1/zshoptions</a></p>
+</dd>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id8">5</a></span></dt>
+<dd><p><a class="reference external" href="http://www.leancrew.com/all-this/2011/12/more-shell-less-egg/">http://www.leancrew.com/all-this/2011/12/more-shell-less-egg/</a></p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id3">6</a></span></dt>
+<dd><p>ARITHMETIC EVALUATION in <a class="reference external" href="https://linux.die.net/man/1/zshmisc">man 1 zshmisc</a></p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id2">7</a></span></dt>
+<dd><p>ARRAY PAMETERS &gt; Subscript Flags in <a class="reference external" href="https://linux.die.net/man/1/zshparam">man 1 zshparam</a></p>
+</dd>
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id1">8</a></span></dt>
+<dd><p>PARAMETER EXPANSION &gt; Parameter Expansion Flags in <a class="reference external" href="https://linux.die.net/man/1/zshexpn">man 1 zshexpn</a></p>
+</dd>
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id9">9</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/roman-neuhauser">https://github.com/roman-neuhauser</a></p>
+<p><a class="reference external" href="http://rants.sigpipe.cz/">http://rants.sigpipe.cz/</a></p>
+</dd>
+<dt class="label" id="id18"><span class="brackets"><a class="fn-backref" href="#id4">10</a></span></dt>
+<dd><p>Surprisingly this can be done in Bash as well via <code class="docutils literal notranslate"><span class="pre">${!aarray[&#64;]}</span></code></p>
+</dd>
+</dl>
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="gnumake.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: GNU Make Coding Guide" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              GNU Make Coding Guide
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="bash.html" class="md-footer__link md-footer__link--next" aria-label="Next: Shell Scripting Survival Guide" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Shell Scripting Survival Guide
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, Jan Matějka.
+        
+    </div>
+  
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="../../_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+    
+  </body>
+</html>
